@@ -7,7 +7,9 @@ using UI = Demo.Entities;
 using BE = Demo.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using LINQtoCSV;
+using System.Text;
+using System.IO;
 
 namespace Demo.Mantenimientos
 {
@@ -34,6 +36,7 @@ namespace Demo.Mantenimientos
         #endregion
 
         private int lastRowIndex = 0;
+        private List<UI.Cliente> lstClienteUi = null;
 
         public FrmClienteList()
         {
@@ -41,10 +44,12 @@ namespace Demo.Mantenimientos
         }
 
         #region Formulario
+
         private void FrmClienteList_Load(object sender, EventArgs e)
         {
             try
             {
+                this.lstClienteUi = new List<UI.Cliente>();
 
                 this.CargarListadoClientes();
                 this.FormatoListadoClientes();
@@ -138,6 +143,35 @@ namespace Demo.Mantenimientos
             }
         }
 
+        private void btnExportarCsv_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                string archivoCsv = $"Clientes_{ DateTime.Now.ToString("yyyyMMdd")}.csv";
+                string rutaCsv = Directory.GetCurrentDirectory();
+
+                fbdExportarCsv.Description = $"Seleccione el destino del archivo {archivoCsv}";
+                fbdExportarCsv.SelectedPath = rutaCsv;
+
+                DialogResult result = fbdExportarCsv.ShowDialog();
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbdExportarCsv.SelectedPath))
+                {
+                    rutaCsv = fbdExportarCsv.SelectedPath;
+
+                    string archivo = Path.Combine(rutaCsv, archivoCsv);
+
+                    this.ExportarCsv(archivo);
+
+                    General.InformationMessage("Se exporto los datos de Clientes");
+                }
+            }
+            catch (Exception ex)
+            {
+                General.ErrorMessage(ex.Message);
+            }
+        }
+
         private void dgvClientes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -186,6 +220,28 @@ namespace Demo.Mantenimientos
         #endregion
 
         #region Metodos
+
+        private void ExportarCsv(string archivo)
+        {
+            try
+            {
+
+                CsvFileDescription outputFileDescription = new CsvFileDescription
+                {
+                    SeparatorChar = ',',
+                    FirstLineHasColumnNames = true,
+                    TextEncoding = Encoding.ASCII,
+                    EnforceCsvColumnAttribute = true
+                };
+                CsvContext cc = new CsvContext();
+                cc.Write(this.lstClienteUi, archivo, outputFileDescription);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         private List<UI.Cliente> ListarClientes()
         {
@@ -273,7 +329,7 @@ namespace Demo.Mantenimientos
             {
                 General.PointerLoad(this);
 
-                var lstClienteUi = this.ListarClientes();
+                this.lstClienteUi = this.ListarClientes();
 
                 if (this.cboFiltro.SelectedIndex > 0)
                 {
@@ -382,8 +438,8 @@ namespace Demo.Mantenimientos
             }
         }
 
+
         #endregion
 
-        
     }
 }

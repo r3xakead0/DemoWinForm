@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmClienteList));
             this.dgvClientes = new System.Windows.Forms.DataGridView();
             this.btnNuevo = new System.Windows.Forms.Button();
@@ -40,10 +41,13 @@
             this.txtNroRegistros = new System.Windows.Forms.TextBox();
             this.lblNroRegistros = new System.Windows.Forms.Label();
             this.pnlFiltro = new System.Windows.Forms.Panel();
-            this.lblFiltro = new System.Windows.Forms.Label();
-            this.cboFiltro = new System.Windows.Forms.ComboBox();
-            this.txtFiltro = new System.Windows.Forms.TextBox();
             this.btnFiltro = new System.Windows.Forms.Button();
+            this.txtFiltro = new System.Windows.Forms.TextBox();
+            this.cboFiltro = new System.Windows.Forms.ComboBox();
+            this.lblFiltro = new System.Windows.Forms.Label();
+            this.btnExportarCsv = new System.Windows.Forms.Button();
+            this.tltExportarCsv = new System.Windows.Forms.ToolTip(this.components);
+            this.fbdExportarCsv = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).BeginInit();
             this.tlpPrincipal.SuspendLayout();
             this.pnlInferior.SuspendLayout();
@@ -105,6 +109,7 @@
             // 
             // pnlInferior
             // 
+            this.pnlInferior.Controls.Add(this.btnExportarCsv);
             this.pnlInferior.Controls.Add(this.btnEditar);
             this.pnlInferior.Controls.Add(this.btnNuevo);
             this.pnlInferior.Controls.Add(this.btnEliminar);
@@ -180,25 +185,16 @@
             this.pnlFiltro.Size = new System.Drawing.Size(664, 24);
             this.pnlFiltro.TabIndex = 3;
             // 
-            // lblFiltro
+            // btnFiltro
             // 
-            this.lblFiltro.AutoSize = true;
-            this.lblFiltro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFiltro.Location = new System.Drawing.Point(9, 6);
-            this.lblFiltro.Name = "lblFiltro";
-            this.lblFiltro.Size = new System.Drawing.Size(35, 13);
-            this.lblFiltro.TabIndex = 112;
-            this.lblFiltro.Text = "Filtro :";
-            // 
-            // cboFiltro
-            // 
-            this.cboFiltro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFiltro.FormattingEnabled = true;
-            this.cboFiltro.Location = new System.Drawing.Point(50, 3);
-            this.cboFiltro.Name = "cboFiltro";
-            this.cboFiltro.Size = new System.Drawing.Size(185, 21);
-            this.cboFiltro.TabIndex = 113;
-            this.cboFiltro.SelectionChangeCommitted += new System.EventHandler(this.cboFiltro_SelectionChangeCommitted);
+            this.btnFiltro.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFiltro.Location = new System.Drawing.Point(589, 4);
+            this.btnFiltro.Name = "btnFiltro";
+            this.btnFiltro.Size = new System.Drawing.Size(66, 20);
+            this.btnFiltro.TabIndex = 19;
+            this.btnFiltro.Text = "Buscar";
+            this.btnFiltro.UseVisualStyleBackColor = true;
+            this.btnFiltro.Click += new System.EventHandler(this.btnFiltro_Click);
             // 
             // txtFiltro
             // 
@@ -211,16 +207,41 @@
             this.txtFiltro.Size = new System.Drawing.Size(342, 20);
             this.txtFiltro.TabIndex = 113;
             // 
-            // btnFiltro
+            // cboFiltro
             // 
-            this.btnFiltro.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFiltro.Location = new System.Drawing.Point(589, 4);
-            this.btnFiltro.Name = "btnFiltro";
-            this.btnFiltro.Size = new System.Drawing.Size(66, 20);
-            this.btnFiltro.TabIndex = 19;
-            this.btnFiltro.Text = "Buscar";
-            this.btnFiltro.UseVisualStyleBackColor = true;
-            this.btnFiltro.Click += new System.EventHandler(this.btnFiltro_Click);
+            this.cboFiltro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFiltro.FormattingEnabled = true;
+            this.cboFiltro.Location = new System.Drawing.Point(50, 3);
+            this.cboFiltro.Name = "cboFiltro";
+            this.cboFiltro.Size = new System.Drawing.Size(185, 21);
+            this.cboFiltro.TabIndex = 113;
+            this.cboFiltro.SelectionChangeCommitted += new System.EventHandler(this.cboFiltro_SelectionChangeCommitted);
+            // 
+            // lblFiltro
+            // 
+            this.lblFiltro.AutoSize = true;
+            this.lblFiltro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFiltro.Location = new System.Drawing.Point(9, 6);
+            this.lblFiltro.Name = "lblFiltro";
+            this.lblFiltro.Size = new System.Drawing.Size(35, 13);
+            this.lblFiltro.TabIndex = 112;
+            this.lblFiltro.Text = "Filtro :";
+            // 
+            // btnExportarCsv
+            // 
+            this.btnExportarCsv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExportarCsv.Image = ((System.Drawing.Image)(resources.GetObject("btnExportarCsv.Image")));
+            this.btnExportarCsv.Location = new System.Drawing.Point(9, 5);
+            this.btnExportarCsv.Name = "btnExportarCsv";
+            this.btnExportarCsv.Size = new System.Drawing.Size(35, 30);
+            this.btnExportarCsv.TabIndex = 19;
+            this.tltExportarCsv.SetToolTip(this.btnExportarCsv, "Exportar a CSV");
+            this.btnExportarCsv.UseVisualStyleBackColor = true;
+            this.btnExportarCsv.Click += new System.EventHandler(this.btnExportarCsv_Click);
+            // 
+            // fbdExportarCsv
+            // 
+            this.fbdExportarCsv.Description = "Seleccione el destino del archivo CSV";
             // 
             // FrmClienteList
             // 
@@ -263,5 +284,8 @@
         internal System.Windows.Forms.Label lblFiltro;
         private System.Windows.Forms.Button btnFiltro;
         private System.Windows.Forms.TextBox txtFiltro;
+        private System.Windows.Forms.Button btnExportarCsv;
+        private System.Windows.Forms.ToolTip tltExportarCsv;
+        private System.Windows.Forms.FolderBrowserDialog fbdExportarCsv;
     }
 }

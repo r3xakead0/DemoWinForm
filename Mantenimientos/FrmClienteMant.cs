@@ -6,12 +6,11 @@ using Demo.Model;
 using UI = Demo.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-using System.Drawing;
+using MaterialSkin.Controls;
 
 namespace Demo.Mantenimientos
 {
-    public partial class FrmClienteMant : Form
+    public partial class FrmClienteMant : MaterialForm
     {
 
         #region "Patron Singleton"

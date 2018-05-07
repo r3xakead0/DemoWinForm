@@ -10,10 +10,11 @@ using System.Linq;
 using LINQtoCSV;
 using System.Text;
 using System.IO;
+using MaterialSkin.Controls;
 
 namespace Demo.Mantenimientos
 {
-    public partial class FrmClienteList : Form
+    public partial class FrmClienteList : MaterialForm
     {
 
         #region "Patron Singleton"
